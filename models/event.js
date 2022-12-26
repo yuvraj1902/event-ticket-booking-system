@@ -10,7 +10,12 @@ module.exports = (sequelize, Sequelize) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      
+      this.hasOne(models.Concert, {
+        as:""
+      });
+      this.hasOne(models.Movie, {
+        as:""
+      });
 
     }
   }

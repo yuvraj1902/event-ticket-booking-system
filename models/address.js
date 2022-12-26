@@ -14,6 +14,12 @@ module.exports = (sequelize, Sequelize) => {
       this.hasMany(models.Theatre, {
         as:""
       });
+      this.hasOne(models.Concert, {
+        as:""
+      });
+      this.hasOne(models.Movie, {
+        as:""
+      });
 
     }
   }
