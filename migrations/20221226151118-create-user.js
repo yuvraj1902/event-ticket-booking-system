@@ -39,6 +39,11 @@ module.exports = {
           isNumeric:true
         }
       },
+      user_type: {
+        type: Sequelize.ENUM,
+        allowNull: false,
+        values:['admin','customer','guest']
+      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE,

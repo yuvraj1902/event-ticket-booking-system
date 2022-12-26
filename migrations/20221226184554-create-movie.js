@@ -25,14 +25,6 @@ module.exports = {
           key: 'id'
         }
       },
-      address_id: {
-        allowNull: false,
-        type: Sequelize.UUID,
-        references: {
-          model: "address",
-          key: 'id'
-        }
-      },
       movie_desc: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -41,6 +33,15 @@ module.exports = {
       movie_crew: {
         type: Sequelize.ARRAY(Sequelize.STRING),
 		    allowNull: false
+      },
+      start_time:{
+        allowNull: false,
+        type: Sequelize.TIME,
+        
+      },
+      end_time:{
+        allowNull: false,
+        type: Sequelize.TIME,
       },
       created_at: {
         allowNull: false,

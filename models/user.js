@@ -46,6 +46,11 @@ module.exports = (sequelize, Sequelize) => {
         isNumeric:true
       }
     },
+    userType: {
+      type: Sequelize.ENUM,
+      allowNull: false,
+      values:['admin','customer','guest']
+    },
   }, {
     sequelize,
     modelName: 'User',

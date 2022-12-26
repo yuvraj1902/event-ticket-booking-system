@@ -1,4 +1,6 @@
 'use strict';
+
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -17,19 +19,19 @@ module.exports = {
           key: 'id'
         }
       },
-      concert_id: {
-        allowNull: true,
-        type: Sequelize.UUID,
-        references: {
-          model: "concert",
-          key: 'id'
-        }
-      },
       movie_id: {
         allowNull: true,
         type: Sequelize.UUID,
         references: {
           model: "movie",
+          key: 'id'
+        }
+      },
+      concert_id: {
+        allowNull: true,
+        type: Sequelize.UUID,
+        references: {
+          model: "concert",
           key: 'id'
         }
       },
@@ -40,12 +42,10 @@ module.exports = {
       is_locked:{
         allowNull: false,
         type: Sequelize.TIME,
-        defaultValue: Sequelize.NOW
       },
       lock_time: {
         allowNull: false,
         type: Sequelize.TIME,
-        defaultValue: Sequelize.NOW 
       },
       booking_status: {
         type: Sequelize.ENUM,

@@ -13,16 +13,14 @@ module.exports = (sequelize, Sequelize) => {
       this.belongsTo(models.Audi, {
         foreignKey: "audi_id",
       });
+      this.hasOne(models.ShowSeat, {
+        as:""
+      });
       
     }
   }
   AudiSeat.init({
-    id: {
-      allowNull: false,
-      primaryKey: true,
-      type: Sequelize.UUID,
-      defaultValue: Sequelize.literal('uuid_generate_v4()')
-    },
+  
     audiId: {
       allowNull: false,
       type: Sequelize.UUID,

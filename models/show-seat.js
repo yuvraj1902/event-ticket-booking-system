@@ -3,65 +3,52 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, Sequelize) => {
-  class Movie extends Model {
+  class ShowSeat extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsTo(models.Event, {
-        foreignKey: "event_id",
+      this.belongsTo(models.Booking, {
+        foreignKey: "booking_id",
       });
-      this.belongsTo(models.Audi, {
-        foreignKey: "audi_id",
-      });
-
-      this.hasMany(models.Booking, {
-        as:""
+      this.belongsTo(models.AudiSeat, {
+        foreignKey: "audi_seat_id",
       });
     }
   }
-  Movie.init({
-    eventId: {
+  ShowSeat.init({
+    bookingId: {
       allowNull: false,
       type: Sequelize.UUID,
       references: {
-        model: "event",
+        model: "booking",
         key: 'id'
       }
     },
-    audiId: {
+    audiSeatId: {
       allowNull: false,
       type: Sequelize.UUID,
       references: {
-        model: "audi",
+        model: "audi_seat",
         key: 'id'
       }
     },
-    movieDesc: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      isAlpha: true
-    },
-    movieCrew: {
-      type: Sequelize.ARRAY(Sequelize.STRING),
+    seatPrice: {
+      type: Sequelize.INTEGER,
       allowNull: false
     },
-    startTime:{
+    seatStatus: {
+      type: Sequelize.ENUM,
       allowNull: false,
-      type: Sequelize.TIME,
-      
+      values:['filled','unfilled']
     },
-    endTime:{
-      allowNull: false,
-      type: Sequelize.TIME,
-    }
   }, {
     sequelize,
-    modelName: 'Movie',
-    tableName:'movie',
+    modelName: 'ShowSeat',
+    tableName:'show_seat',
     paranoid:true
   });
-  return Movie;
+  return ShowSeat;
 };
