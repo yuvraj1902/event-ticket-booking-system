@@ -2,27 +2,22 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('theatre', {
+    await queryInterface.createTable('audi', {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
         defaultValue: Sequelize.literal('uuid_generate_v4()')
       },
-      address_id: {
+      theatre_id: {
         allowNull: false,
         type: Sequelize.UUID,
         references: {
-          model: "address",
+          model: "theatre",
           key: 'id'
         }
       },
-      theatre_name: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        isAlpha: true
-      },
-      no_of_screens: {
+      no_of_seats: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
@@ -44,6 +39,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('theatre');
+    await queryInterface.dropTable('audi');
   }
 };

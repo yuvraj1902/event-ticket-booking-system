@@ -2,29 +2,36 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('theatre', {
+    await queryInterface.createTable('event', {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
         defaultValue: Sequelize.literal('uuid_generate_v4()')
       },
-      address_id: {
-        allowNull: false,
-        type: Sequelize.UUID,
-        references: {
-          model: "address",
-          key: 'id'
-        }
-      },
-      theatre_name: {
+      event_name: {
         type: Sequelize.STRING,
         allowNull: false,
         isAlpha: true
       },
-      no_of_screens: {
-        type: Sequelize.INTEGER,
+      event_duration: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        isAlphanumeric: true,
+      },
+      event_language: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        isAlpha: true
+      },
+      event_date: {
+        type: Sequelize.DATE,
         allowNull: false
+      },
+      event_type: {
+        type: Sequelize.ENUM,
+        allowNull: false,
+        values:['concert','movie']
       },
       created_at: {
         allowNull: false,
@@ -44,6 +51,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('theatre');
+    await queryInterface.dropTable('event');
   }
 };

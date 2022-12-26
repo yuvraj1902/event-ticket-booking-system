@@ -3,44 +3,48 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, Sequelize) => {
-  class Theatre extends Model {
+  class AudiSeat extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsTo(models.Address, {
-        foreignKey: "address_id",
+      this.belongsTo(models.Audi, {
+        foreignKey: "audi_id",
       });
-      this.hasMany(models.Audi, {
-        as:""
-      });
+      
     }
   }
-  Theatre.init({
-    addressId: {
+  AudiSeat.init({
+    id: {
+      allowNull: false,
+      primaryKey: true,
+      type: Sequelize.UUID,
+      defaultValue: Sequelize.literal('uuid_generate_v4()')
+    },
+    audiId: {
       allowNull: false,
       type: Sequelize.UUID,
       references: {
-        model: "address",
+        model: "audi",
         key: 'id'
       }
     },
-    theatreName: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      isAlpha: true
-    },
-    noOfScreens: {
+    seatNo: {
       type: Sequelize.INTEGER,
       allowNull: false
     },
+    seatType: {
+      type: Sequelize.ENUM,
+      allowNull: false,
+      values:['platinum','gold','silver']
+    },
   }, {
     sequelize,
-    modelName: 'Theatre',
-    tableName:'theatre',
+    modelName: 'AudiSeat',
+    tableName:'audi_seat',
     paranoid:true
   });
-  return Theatre;
+  return AudiSeat;
 };
