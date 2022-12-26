@@ -19,6 +19,9 @@ module.exports = (sequelize, Sequelize) => {
       this.belongsTo(models.Address, {
         foreignKey: "address_id",
       });
+      this.hasMany(models.Booking, {
+        as:""
+      });
     }
   }
   Concert.init({
