@@ -10,13 +10,13 @@ module.exports = (sequelize, Sequelize) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.hasOne(models.Concert, {
+      this.hasMany(models.Concert, {
         as:""
       });
-      this.hasOne(models.Movie, {
+      this.hasMany(models.Movie, {
         as:""
       });
-
+      
     }
   }
   Event.init({

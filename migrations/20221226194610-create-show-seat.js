@@ -2,38 +2,37 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('concert', {
+    await queryInterface.createTable('show_seat', {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
         defaultValue: Sequelize.literal('uuid_generate_v4()')
       },
-      event_id: {
+      booking_id: {
         allowNull: false,
         type: Sequelize.UUID,
         references: {
-          model: "event",
+          model: "booking",
           key: 'id'
         }
       },
-      audi_id: {
+      audi_seat_id: {
         allowNull: false,
         type: Sequelize.UUID,
         references: {
-          model: "audi",
+          model: "audi_seat",
           key: 'id'
         }
       },
-      artist_name: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        isAlpha: true
+      seat_price: {
+        type: Sequelize.INTEGER,
+        allowNull: false
       },
-      concert_genre: {
-        type: Sequelize.STRING,
+      seat_status: {
+        type: Sequelize.ENUM,
         allowNull: false,
-        isAlpha: true
+        values:['filled','unfilled']
       },
       created_at: {
         allowNull: false,
@@ -53,6 +52,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('concert');
+    await queryInterface.dropTable('show_seat');
   }
 };

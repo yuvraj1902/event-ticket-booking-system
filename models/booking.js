@@ -13,31 +13,26 @@ module.exports = (sequelize, Sequelize) => {
       this.belongsTo(models.User, {
         foreignKey: "user_id",
       });
-      this.belongsTo(models.Concert, {
-        foreignKey: "concert_id",
-      });
       this.belongsTo(models.Movie, {
         foreignKey: "movie_id",
       });
+      this.belongsTo(models.Concert, {
+        foreignKey: "concert_id",
+      });
       this.hasOne(models.Payment, {
+        as:""
+      });
+      this.hasMany(models.ShowSeat, {
         as:""
       });
     }
   }
   Booking.init({
-    user_id: {
+    userId: {
       allowNull: false,
       type: Sequelize.UUID,
       references: {
         model: "user",
-        key: 'id'
-      }
-    },
-    concertId: {
-      allowNull: true,
-      type: Sequelize.UUID,
-      references: {
-        model: "concert",
         key: 'id'
       }
     },
@@ -49,6 +44,14 @@ module.exports = (sequelize, Sequelize) => {
         key: 'id'
       }
     },
+    concertId: {
+      allowNull: true,
+      type: Sequelize.UUID,
+      references: {
+        model: "concert",
+        key: 'id'
+      }
+    },
     bookSeat: {
       type: Sequelize.NUMBER,
       allowNull: false
@@ -56,12 +59,10 @@ module.exports = (sequelize, Sequelize) => {
     isLocked:{
       allowNull: false,
       type: Sequelize.TIME,
-      defaultValue: Sequelize.NOW
     },
     lockTime: {
       allowNull: false,
       type: Sequelize.TIME,
-      defaultValue: Sequelize.NOW + 10
     },
     bookingStatus: {
       type: Sequelize.ENUM,

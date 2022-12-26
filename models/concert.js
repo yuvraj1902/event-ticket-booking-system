@@ -16,9 +16,7 @@ module.exports = (sequelize, Sequelize) => {
       this.belongsTo(models.Audi, {
         foreignKey: "audi_id",
       });
-      this.belongsTo(models.Address, {
-        foreignKey: "address_id",
-      });
+
       this.hasMany(models.Booking, {
         as:""
       });
@@ -38,14 +36,6 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.UUID,
       references: {
         model: "audi",
-        key: 'id'
-      }
-    },
-    addressId: {
-      allowNull: false,
-      type: Sequelize.UUID,
-      references: {
-        model: "address",
         key: 'id'
       }
     },
