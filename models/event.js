@@ -11,10 +11,14 @@ module.exports = (sequelize, Sequelize) => {
      */
     static associate(models) {
       this.hasMany(models.Concert, {
-        as:""
+        foreignKey:"event_id",
+        sourceKey:"id",
+        as:"Concert"
       });
       this.hasMany(models.Movie, {
-        as:""
+        foreignKey:"event_id",
+        sourceKey:"id",
+        as:"Movie"
       });
       
     }

@@ -12,9 +12,12 @@ module.exports = (sequelize, Sequelize) => {
     static associate(models) {
       this.belongsTo(models.Address, {
         foreignKey: "address_id",
+        targetKey:"id"
       });
       this.hasMany(models.Audi, {
-        as:""
+        foreignKey:"theatre_id",
+        sourceKey:"id",
+        as:"Audi"
       });
     }
   }

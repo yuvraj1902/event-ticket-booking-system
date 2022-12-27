@@ -13,14 +13,21 @@ module.exports = (sequelize,Sequelize) => {
 
       this.belongsTo(models.Theatre, {
         foreignKey: "theatre_id",
+        targetKey:"id"
       });
       this.hasMany(models.AudiSeat, {
-        as:""
+        foreignKey:"audi_id",
+        sourceKey:"id",
+        as:"AudiSeat"
       });
       this.hasOne(models.Concert, {
+        foreignKey:"audi_id",
+        sourceKey:"id",
         as:""
       });
       this.hasOne(models.Movie, {
+        foreignKey:"audi_id",
+        sourceKey:"id",
         as:""
       });
     }
