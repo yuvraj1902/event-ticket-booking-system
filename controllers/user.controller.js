@@ -1,4 +1,4 @@
-const { commonErrorHandler } = require('../helper/error-handler');
+const { commonErrorHandler } = require('../helper/error-handler.helper');
 const userService = require('../services/user.service');
 
 const registration = async (req, res, next) => {

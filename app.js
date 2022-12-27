@@ -4,7 +4,7 @@ const helmet = require('helmet');
 const compression = require('compression');
 const routes = require('./routes');
 // const ReqResLoggerMiddleware = require("./middlewares/req-res-logger");
-const { commonErrorHandler } = require("./helper/error-handler");
+const { commonErrorHandler } = require("./helper/error-handler.helper");
 
 const app = express();
 app.use(express.json());
