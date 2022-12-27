@@ -4,7 +4,7 @@ const helmet = require('helmet');
 const compression = require('compression');
 const routes = require('./routes');
 // const ReqResLoggerMiddleware = require("./middlewares/req-res-logger");
-const { commonErrorHandler } = require("./helper/errorHandler");
+const { commonErrorHandler } = require("./helper/error-handler.helper");
 
 const app = express();
 app.use(express.json());
@@ -34,7 +34,7 @@ routes.registerRoutes(app);
 // 404 Error Handling
 app.use((req, res) => {
     const message = 'Invalid endpoint';
-    commonErrorHandler(req, res, message, 400);
+    commonErrorHandler(req, res, message, 404);
 
 });
 
