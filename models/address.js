@@ -12,7 +12,9 @@ module.exports = (sequelize, Sequelize) => {
     static associate(models) {
       
       this.hasMany(models.Theatre, {
-        as:""
+        foreignKey:"address_id",
+        sourceKey:"id",
+        as:"Theatre"
       });
     }
   }

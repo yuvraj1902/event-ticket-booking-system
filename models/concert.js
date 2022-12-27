@@ -12,13 +12,17 @@ module.exports = (sequelize, Sequelize) => {
     static associate(models) {
       this.belongsTo(models.Event, {
         foreignKey: "event_id",
+        targetKey:"id"
       });
       this.belongsTo(models.Audi, {
         foreignKey: "audi_id",
+        targetKey:"id"
       });
 
       this.hasMany(models.Booking, {
-        as:""
+        foreignKey:"concert_id",
+        sourceKey:"id",
+        as:"Booking"
       });
     }
   }

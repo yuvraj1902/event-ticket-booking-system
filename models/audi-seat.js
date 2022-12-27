@@ -12,8 +12,11 @@ module.exports = (sequelize, Sequelize) => {
     static associate(models) {
       this.belongsTo(models.Audi, {
         foreignKey: "audi_id",
+        targetKey:"id",
       });
       this.hasOne(models.ShowSeat, {
+        foreignKey:"audi_seat_id",
+        sourceKey:"id",
         as:""
       });
       

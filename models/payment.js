@@ -12,6 +12,7 @@ module.exports = (sequelize, Sequelize) => {
     static associate(models) {
       this.belongsTo(models.Booking, {
         foreignKey: "booking_id",
+        targetKey:"id"
       });
     }
   }
