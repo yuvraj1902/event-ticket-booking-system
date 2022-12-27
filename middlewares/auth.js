@@ -37,7 +37,7 @@ const checkRefreshToken = async (req, res, next) => {
     //if (!isRefreshTokenInCache) throw new Error('Login Required');
     const decoded_jwt = jwt.verify(refreshToken, process.env.SECRET_KEY_REFRESH);
 
-    req.body.userId = decoded_jwt.id;
+    req.body.userId = decoded_jwt.userId;
     req.refreshToken = refreshToken;
     next();
   } catch (error) {

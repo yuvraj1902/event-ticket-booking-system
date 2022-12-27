@@ -23,7 +23,19 @@ const loginUser = async (req, res, next) => {
     }
 }
 
+const refreshToken = async (req, res, next) => {
+    try {
+        const { userId: userId } = req.body;
+        const refreshToken = req.refreshToken;
+        const data = await userService.refreshToken(refreshToken, userId);
+        res.data = data;
+        next();
+    } catch (error) {
+        commonErrorHandler(req, res, error.message, 400, error);
+    }
+}
+
 module.exports={
-    registration,loginUser
+    registration,loginUser,refreshToken
 }
 
