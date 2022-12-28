@@ -58,10 +58,22 @@ const forgetPassword=async(req, res, next)=>{
 
 } 
 
+const resetPasswordByLink = async (req, res, next) => {
+    try {
+      const { body: payload,params } = req;
+      const data = await userService.resetPasswordByLink(payload,req.params);
+      res.data = data;
+      next();
+    } catch (error) {
+      commonErrorHandler(req, res, error.message, 400, error);
+    }
+  };
+
 module.exports = {
   registration,
   loginUser,
   refreshToken,
   resetPassword,
-  forgetPassword
+  forgetPassword,
+  resetPasswordByLink
 };

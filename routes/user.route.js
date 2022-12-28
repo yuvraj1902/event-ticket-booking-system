@@ -38,5 +38,11 @@ router.patch(
     controllers.User.forgetPassword,
     genericResponse.sendResponse
   );
+  router.patch(
+    "/reset-password/:id",
+    validators.userValidator.resetPasswordByLinkSchema,
+    controllers.User.resetPasswordByLink,
+    genericResponse.sendResponse
+  );
 
 module.exports = router;
