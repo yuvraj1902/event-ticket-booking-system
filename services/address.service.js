@@ -2,7 +2,9 @@ const models=require("../models")
 const createAddress = async (payload) => {
     try {
         const existingAddress = await models.Address.findOne({
-            where: { address_name: payload.addressName },
+            where:{
+                 address_name: payload.addressName
+            },
           });
           if (existingAddress) {
             throw new Error("Address already exists");
