@@ -34,7 +34,11 @@ routes.registerRoutes(app);
 // 404 Error Handling
 app.use((req, res) => {
     const message = 'Invalid endpoint';
+
+    commonErrorHandler(req, res, message, 404);
+
    commonErrorHandler(req, res, message, 404);
+
 
 });
 
