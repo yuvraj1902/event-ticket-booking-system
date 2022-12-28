@@ -33,6 +33,16 @@ const getMovieDetails = async (req, res, next) => {
         commonErrorHandler(req, res, error.message, 400, error);
     }
 };
+const getConcertDetails = async (req, res, next) => {
+    try {
+        const { body: payload } = req;
+        const data = await showService.getConcertDetails(payload);
+        res.data = data;
+        next();
+    } catch (error) {
+        commonErrorHandler(req, res, error.message, 400, error);
+    }
+};
 module.exports={
-    createShow,getShowType,getMovieDetails
+    createShow,getShowType,getMovieDetails,getConcertDetails
 }

@@ -7,9 +7,21 @@ const getShowTypeSchema = async (req, res, next) => {
     });
     validateRequest(req, res, next, schema, 'body');
 }
+const getMovieDetailsSchema = async (req, res, next) => {
+    const schema = Joi.object({
+        pinCode: Joi.string().required()
+    });
+    validateRequest(req, res, next, schema, 'body');
+}
+const getConcertDetailsSchema = async (req, res, next) => {
+    const schema = Joi.object({
+        pinCode: Joi.string().required()
+    });
+    validateRequest(req, res, next, schema, 'body');
+}
 
 
 
 module.exports={
-    getShowTypeSchema
+    getShowTypeSchema,getMovieDetailsSchema,getConcertDetailsSchema
 }

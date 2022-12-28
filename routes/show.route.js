@@ -21,5 +21,17 @@ router.post(
     controllers.Show.createShow,
     genericResponse.sendResponse
 );
+router.post(
+    '/movie',
+    validators.showValidator.getMovieDetailsSchema,
+    controllers.Show.getMovieDetails,
+    genericResponse.sendResponse
+);
+router.post(
+    '/concert',
+    validators.showValidator.getConcertDetailsSchema,
+    controllers.Show.getConcertDetails,
+    genericResponse.sendResponse
+);
 
 module.exports=router;

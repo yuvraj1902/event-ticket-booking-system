@@ -1,107 +1,230 @@
-const models=require("../models")
-const { sequelize } = require('../models');
+const models = require("../models");
+const { sequelize } = require("../models");
 
-const getShowType=async(payload)=>{
-    try{
+const getShowType = async (payload) => {
+  try {
     const event = await models.Event.findOne({
-        where: { id: payload.eventId },
-      });
-      if (!event) {
-        throw new Error("Event does not exist ");
-      }
-      
-      return ` event_type : ${event.eventType} `
-    }catch (error) {
-        return { data: null, error: error };
+      where: { id: payload.eventId },
+    });
+    if (!event) {
+      throw new Error("Event does not exist ");
     }
-}
+
+    return ` event_type : ${event.eventType} `;
+  } catch (error) {
+    return { data: null, error: error };
+  }
+};
 const createShow = async (payload) => {
-    try {
-        const event = await models.Event.findOne({
-            where: { id: payload.eventId },
-          });
-          if (!event) {
-            throw new Error("Event does not exist ");
-          }
-          if(event.eventType == 'movie'){
-            const movie = await models.Movie.create(payload);
-            return "movie show has successfully created";
-        }else if(event.eventType == 'concert'){
-        const concert = await models.Concert.create(payload);
-        return "concert show has successfully created";
-        }else{
-            return "Event Type is not correct"
-        }
-        
-    } catch (error) {
-        return { data: null, error: error };
+  try {
+    const event = await models.Event.findOne({
+      where: { id: payload.eventId },
+    });
+    if (!event) {
+      throw new Error("Event does not exist ");
     }
+    if (event.eventType == "movie") {
+      
+      const audi = await models.Movie.findOne({
+        where: { audi_id: payload.audiId },
+      });
+      console.log(audi);
+      if (audi) {
+        throw new Error("Audi already exists");
+      }
+      const movie = await models.Movie.create(payload);
+      return "movie show has successfully created";
+    } else if (event.eventType == "concert") {
+      
+      const audi = await models.Concert.findOne({
+        where: { audi_id: payload.audiId },
+      });
+      if (audi) {
+        throw new Error("Audi already exists");
+      }
+      const concert = await models.Concert.create(payload);
+      return "concert show has successfully created";
+    } else {
+      return "Event Type is not correct";
+    }
+  } catch (error) {
+    return { data: null, error: error };
+  }
 };
 
-const getShowDetails = async (payload) => {
-    const userPayload = JSON.parse(JSON.stringify(payload));
-    userPayload.is_firsttime = true;
-    userPayload.password = await bcrypt.hash(userPayload.password, 10)
-    const trans = await sequelize.transaction();
-    try {
-      const existingUser = await models.User.findOne({
-        where: { email: userPayload.email },
-      });
-      if (existingUser) {
-        throw new Error("User already exists");
-      }
-      const user = await models.User.create(userPayload,
+const getMovieDetails = async (payload) => {
+  const trans = await sequelize.transaction();
+  try {
+    const address = await models.Address.findOne(
+      {
+        where: { pin_code: payload.pinCode },
+      },
+      { transaction: trans }
+    );
+    if (!address) {
+      throw new Error("Address does not exists");
+    }
+    const theatre = await models.Theatre.findOne(
+      {
+        where: {
+          address_id: address.id,
+        },
+      },
+      { transaction: trans }
+    );
+    if (!theatre) {
+      throw new Error("Theatre does not exists");
+    }
+    const audi = await models.Audi.findAll(
+      {
+        where: {
+          theatre_id: theatre.id,
+        },
+      },
+      { transaction: trans }
+    );
+    if (!audi[0]) {
+      throw new Error("Audi does not exists");
+    }
+
+    let movies = [];
+    for (let i = 0; i < audi.length; i++) {
+      const movie = await models.Movie.findOne(
+        {
+          attributes: {
+            exclude: [
+              "created_at",
+              "updated_at",
+              "deleted_at",
+              "audi_id",
+              "event_id",
+            ],
+          },
+          where: {
+            audi_id: audi[i].id,
+          },
+        },
         { transaction: trans }
       );
-  
-      const userId = user.dataValues.id;
-      if (userPayload.designation_code) {
-        const designation = await models.Designation.findOne({
-          where: {
-            designation_code: userPayload.designation_code,
+      if (!movie) continue;
+      else {
+        const event = await models.Event.findOne(
+          {
+            where: {
+              id: movie.eventId,
+            },
           },
-        },
           { transaction: trans }
         );
-        if (!designation) {
-          throw new Error("Invalid Designation");
-        }
-        const designation_user_mapping_designationID =
-          await models.UserDesignationMapping.create({
-            designation_id: designation.id,
-            user_id: userId,
-          },
-            { transaction: trans }
-          );
-  
-      }
-      if (userPayload.role_key) {
-        const role = await models.Role.findOne({
-          where: {
-            role_key: userPayload.role_key,
-          },
-        },
-          { transaction: trans }
-        );
-  
-        if (!role) {
-          throw new Error("Invalid Role");
-        }
-        const user_role_mapping = await models.UserRoleMapping.create({
-          user_id: userId,
-          role_id: role.id
-        },
-          { transaction: trans }
-        );
-      }
-      await trans.commit();
-      return { data: user, error: null };
-    } catch (error) {
-      await trans.rollback();
-      return { data: null, error: error };
-    }
-  };
 
-module.exports={
-    createShow,getShowType,getShowDetails
-}
+        const show = {
+          movieName: event.eventName,
+          movieDesc: movie.movieDesc,
+          movieCrew: movie.movieCrew,
+          movieDuration: event.eventDuration,
+          movieLanguage: event.eventLanguage,
+          movieDate: event.eventDate,
+          startTime: movie.startTime,
+          endTime: movie.endTime,
+        };
+        movies.push(show);
+      }
+    }
+    await trans.commit();
+    return movies;
+  } catch (error) {
+    await trans.rollback();
+    return { data: null, error: error };
+  }
+};
+
+const getConcertDetails = async (payload) => {
+  const trans = await sequelize.transaction();
+  try {
+    const address = await models.Address.findOne(
+      {
+        where: { pin_code: payload.pinCode },
+      },
+      { transaction: trans }
+    );
+    if (!address) {
+      throw new Error("Address does not exists");
+    }
+    const theatre = await models.Theatre.findOne(
+      {
+        where: {
+          address_id: address.id,
+        },
+      },
+      { transaction: trans }
+    );
+    if (!theatre) {
+      throw new Error("Theatre does not exists");
+    }
+    const audi = await models.Audi.findAll(
+      {
+        where: {
+          theatre_id: theatre.id,
+        },
+      },
+      { transaction: trans }
+    );
+    if (!audi[0]) {
+      throw new Error("Audi does not exists");
+    }
+
+    let movies = [];
+    for (let i = 0; i < audi.length; i++) {
+      const concert = await models.Concert.findOne(
+        {
+          attributes: {
+            exclude: [
+              "created_at",
+              "updated_at",
+              "deleted_at",
+              "audi_id",
+              "event_id",
+            ],
+          },
+          where: {
+            audi_id: audi[i].id,
+          },
+        },
+        { transaction: trans }
+      );
+      if (!concert) continue;
+      else {
+        const event = await models.Event.findOne(
+          {
+            where: {
+              id: concert.eventId,
+            },
+          },
+          { transaction: trans }
+        );
+
+        const show = {
+          concertName: event.eventName,
+          artistName: concert.artistName,
+          concertGenre: concert.concertGenre,
+          concertDuration: event.eventDuration,
+          concertLanguage: event.eventLanguage,
+          concertDate: event.eventDate
+        };
+        movies.push(show);
+      }
+    }
+    await trans.commit();
+    return movies;
+  } catch (error) {
+    await trans.rollback();
+    return { data: null, error: error };
+  }
+};
+
+module.exports = {
+  createShow,
+  getShowType,
+  getMovieDetails,
+  getConcertDetails
+};
