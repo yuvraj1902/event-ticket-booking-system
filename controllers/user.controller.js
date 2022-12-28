@@ -35,8 +35,33 @@ const refreshToken = async (req, res, next) => {
   }
 };
 
+const resetPassword = async (req, res, next) => {
+    try {
+      const { body: payload, user } = req;
+      const data = await userService.resetPassword(payload,req.user);
+      res.data = data;
+      next();
+    } catch (error) {
+      commonErrorHandler(req, res, error.message, 400, error);
+    }
+  };
+
+const forgetPassword=async(req, res, next)=>{
+    try {
+        const { body: payload } = req;
+        const data = await userService.forgetPassword(payload);
+        res.data = data;
+        next();
+      } catch (error) {
+        commonErrorHandler(req, res, error.message, 400, error);
+      }    
+
+} 
+
 module.exports = {
   registration,
   loginUser,
   refreshToken,
+  resetPassword,
+  forgetPassword
 };

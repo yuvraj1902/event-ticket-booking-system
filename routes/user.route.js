@@ -2,7 +2,7 @@ const { Router } = require("express");
 const controllers = require("../controllers");
 const validators = require("../validators");
 const genericResponse = require("../helper/generic-response.helper");
-const { checkRefreshToken } = require("../middlewares/auth");
+const { checkRefreshToken, checkAccessToken } = require("../middlewares/auth");
 const router = Router();
 
 router.post(
@@ -23,5 +23,20 @@ router.get(
   controllers.User.refreshToken,
   genericResponse.sendResponse
 );
+
+router.patch(
+    "/reset-password",
+    checkAccessToken,
+    validators.userValidator.resetPasswordSchema,
+    controllers.User.resetPassword,
+    genericResponse.sendResponse
+  );
+
+  router.patch(
+    "/forget-password",
+    validators.userValidator.forgetPasswordSchema,
+    controllers.User.forgetPassword,
+    genericResponse.sendResponse
+  );
 
 module.exports = router;

@@ -2,7 +2,9 @@ const models = require("../models");
 const { sequelize } = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
+const UniqueStringGenerator = require("unique-string-generator");
+const mailer = require("../helper/send-mail.helper");
+const redisClient = require("../utility/redis");
 const registration = async (payload) => {
   try {
     const existingUser = await models.User.findOne({
@@ -23,19 +25,28 @@ const registration = async (payload) => {
 const loginUser = async (payload) => {
   const { email, password } = payload;
 
+  console.log(payload);
+
   const user = await models.User.findOne({
     where: {
       email: email,
     },
   });
 
-  if (!user) {
-    throw new Error("User Not Found!");
-  }
-
-  const match = await bcrypt.compare(password, user.dataValues.password);
-  if (!match) {
-    throw new Error("Wrong credentials");
+  let key = user.dataValues.id + "-refresh-token";
+  let refreshToken = await redisClient.get(key);
+  if (!refreshToken) {
+    const match = await bcrypt.compareSync(password, user.dataValues.password);
+    if (!match) {
+      throw new Error("Wrong email or password");
+    }
+    refreshToken = jwt.sign(
+      { userId: user.dataValues.id },
+      process.env.SECRET_KEY_REFRESH,
+      {
+        expiresIn: process.env.JWT_REFRESH_EXPIRATION,
+      }
+    );
   }
 
   const accessToken = jwt.sign(
@@ -45,15 +56,8 @@ const loginUser = async (payload) => {
       expiresIn: process.env.JWT_ACCESS_EXPIRATION,
     }
   );
-  const refreshToken = jwt.sign(
-    { userId: user.dataValues.id },
-    process.env.SECRET_KEY_REFRESH,
-    {
-      expiresIn: process.env.JWT_REFRESH_EXPIRATION,
-    }
-  );
 
-  delete user.dataValues.password;
+  await redisClient.set(key, refreshToken);
 
   return {
     id: user.id,
@@ -78,8 +82,44 @@ const refreshToken = async (refreshToken, userId) => {
   };
 };
 
+const resetPassword = async (payload, user) => {
+  const userId = user.id;
+  const password = payload.oldPassword;
+  const match = await bcrypt.compare(password, user.password);
+  if (!match) {
+    throw new Error("Wrong credentials");
+  }
+  const newPassword = await bcrypt.hash(payload.newPassword, 10);
+  const updatePassword = await models.User.update(
+    { password: newPassword },
+    { where: { id: userId } }
+  );
+
+  return "password reset successdully";
+};
+
+const forgetPassword = async (payload) => {
+  const email = payload.email;
+  const findUser = await models.User.findOne({
+    where: { email: email },
+  });
+
+  if (!findUser) {
+    throw new Error("user not found");
+  }
+  const randomToken = UniqueStringGenerator.UniqueString();
+  const body = `reset password link- ${process.env.BASE_URL}/user/reset-password/${randomToken}`;
+  const subject = "reset password";
+  const recipient = email;
+  const userId = findUser.id;
+  await redisClient.set(randomToken, userId, 20);
+  mailer.sendMail(body, subject, recipient);
+  return "reset password link send successfully";
+};
 module.exports = {
   registration,
   loginUser,
   refreshToken,
+  resetPassword,
+  forgetPassword,
 };

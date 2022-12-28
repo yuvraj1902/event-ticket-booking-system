@@ -32,7 +32,24 @@ const registrationSchema = async (req, res, next) => {
   });
   validateRequest(req, res, next, schema, "body");
 };
+
+const resetPasswordSchema= async (req, res, next) => {
+    const schema = Joi.object({
+      oldPassword: Joi.string().required(),
+      newPassword: Joi.string().required(),
+    });
+    validateRequest(req, res, next, schema, "body");
+  }
+
+  const forgetPasswordSchema= async (req, res, next) => {
+    const schema = Joi.object({
+      email: Joi.string().email().lowercase().required()
+    });
+    validateRequest(req, res, next, schema, "body");
+  }
 module.exports = {
   registrationSchema,
   loginSchema,
+  resetPasswordSchema,
+  forgetPasswordSchema
 };
