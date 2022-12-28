@@ -31,7 +31,6 @@ const validateRequest = (req, res, next, schema, requestParamterType) => {
   return commonErrorHandler(req, res, message, 422);
 };
 
-
 module.exports = {
-  validateRequest,
+    validateRequest
 };
