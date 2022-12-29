@@ -51,7 +51,8 @@ module.exports = (sequelize, Sequelize) => {
     userType: {
       type: Sequelize.ENUM,
       allowNull: false,
-      values:['admin','customer','guest']
+      values:['admin','customer','guest'],
+      defaultValue:'customer'
     },
   }, {
     sequelize,

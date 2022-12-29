@@ -43,6 +43,25 @@ module.exports = (sequelize, Sequelize) => {
         key: 'id'
       }
     },
+    concertName: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      isAlpha: true
+    },
+    concertDuration: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      isAlphanumeric: true,
+    },
+    concertLanguage: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      isAlpha: true
+    },
+    concertDate: {
+      type: Sequelize.DATE,
+      allowNull: false
+    },
     artistName: {
       type: Sequelize.STRING,
       allowNull: false,
