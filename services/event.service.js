@@ -2,7 +2,7 @@ const models = require("../models");
 const createEvent = async (payload) => {
   try {
     const existingEvent = await models.Event.findOne({
-      where: { event_name: payload.eventName },
+      where: { event_type: payload.eventType },
     });
     if (existingEvent) {
       throw new Error("Event already exists");
