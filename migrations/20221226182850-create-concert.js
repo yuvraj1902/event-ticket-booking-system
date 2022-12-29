@@ -25,6 +25,25 @@ module.exports = {
           key: 'id'
         }
       },
+      concert_name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        isAlpha: true
+      },
+      concert_duration: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        isAlphanumeric: true,
+      },
+      concert_language: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        isAlpha: true
+      },
+      concert_date: {
+        type: Sequelize.DATE,
+        allowNull: false
+      },
       artist_name: {
         type: Sequelize.STRING,
         allowNull: false,

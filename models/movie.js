@@ -43,11 +43,32 @@ module.exports = (sequelize, Sequelize) => {
         key: 'id'
       }
     },
+    movieName: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      isAlpha: true
+    },
+    movieDuration: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      isAlphanumeric: true,
+    },
+    movieLanguage: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      isAlpha: true
+    },
+    movieDate: {
+      type: Sequelize.DATE,
+      allowNull: false
+    },
+
     movieDesc: {
       type: Sequelize.STRING,
       allowNull: false,
       isAlpha: true
     },
+    
     movieCrew: {
       type: Sequelize.ARRAY(Sequelize.STRING),
       allowNull: false
