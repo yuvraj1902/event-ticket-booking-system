@@ -9,25 +9,7 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.literal('uuid_generate_v4()')
       },
-      event_name: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        isAlpha: true
-      },
-      event_duration: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        isAlphanumeric: true,
-      },
-      event_language: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        isAlpha: true
-      },
-      event_date: {
-        type: Sequelize.DATE,
-        allowNull: false
-      },
+      
       event_type: {
         type: Sequelize.ENUM,
         allowNull: false,
