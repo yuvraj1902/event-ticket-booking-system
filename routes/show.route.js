@@ -49,7 +49,7 @@ router.delete(
     controllers.Show.deleteConcert,
     genericResponse.sendResponse
 );
-router.put(
+router.patch(
     '/movie',
     checkAccessToken,
     verifyUser,
@@ -57,7 +57,7 @@ router.put(
     controllers.Show.updateMovie,
     genericResponse.sendResponse
 );
-router.put(
+router.patch(
     '/concert',
     checkAccessToken,
     verifyUser,

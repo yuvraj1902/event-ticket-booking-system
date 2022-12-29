@@ -28,7 +28,7 @@ const createShow = async (payload) => {
       const audi = await models.Movie.findOne({
         where: { audi_id: payload.audiId },
       });
-      console.log(audi, "==========================");
+    
       if (audi) {
         throw new Error("Audi already exists");
       }
@@ -108,22 +108,13 @@ const getMovieDetails = async (payload) => {
       );
       if (!movie) continue;
       else {
-        const event = await models.Event.findOne(
-          {
-            where: {
-              id: movie.eventId,
-            },
-          },
-          { transaction: trans }
-        );
-
-        const show = {
-          movieName: event.eventName,
+      const show = {
+          movieName: movie.movieName,
           movieDesc: movie.movieDesc,
           movieCrew: movie.movieCrew,
-          movieDuration: event.eventDuration,
-          movieLanguage: event.eventLanguage,
-          movieDate: event.eventDate,
+          movieDuration: movie.movieDuration,
+          movieLanguage: movie.movieLanguage,
+          movieDate: movie.movieDate,
           startTime: movie.startTime,
           endTime: movie.endTime,
         };
@@ -194,22 +185,13 @@ const getConcertDetails = async (payload) => {
       );
       if (!concert) continue;
       else {
-        const event = await models.Event.findOne(
-          {
-            where: {
-              id: concert.eventId,
-            },
-          },
-          { transaction: trans }
-        );
-
-        const show = {
-          concertName: event.eventName,
+       const show = {
+          concertName: concert.concertName,
           artistName: concert.artistName,
           concertGenre: concert.concertGenre,
-          concertDuration: event.eventDuration,
-          concertLanguage: event.eventLanguage,
-          concertDate: event.eventDate
+          concertDuration: concert.concertDuration,
+          concertLanguage: concert.concertLanguage,
+          concertDate: concert.concertDate
         };
         movies.push(show);
       }
@@ -250,65 +232,44 @@ const deleteConcert = async (payload) => {
   }
 };
 
-const updateMovie = async (payload) => {
-  const trans = await sequelize.transaction(); 
+const updateMovie = async (payload) => { 
   try {
-
-  const getMovie=await models.Movie.findOne({
-    where: { id: payload.movieId },
-  }, { transaction: trans });
-  
-  
-  const event = await models.Event.update(
-    {
-      event_name:payload.movieName,
-      event_duration:payload.movieDuration,
-      event_language:payload.movieLanguage,
-      event_date:payload.movieDate
-    },
-    {where: { id: getMovie.eventId }},
-    { transaction: trans }
-  );
-
-  // //console.log("=================================");
-  //   const movie = await models.Movie.update(
-  //     {
-  //       movie_desc:payload.movieDesc,
-  //       movie_crew:payload.movieCrew,
-  //       start_time:payload.startTime,
-  //       end_time:payload.endTime
-  //     },
-  //     {where: { id: payload.movieId }},
-  //     { transaction: trans }
-  //   );
-    // if (!movie) {
-    //   throw new Error("Movie does not exist ");
-    // }
-    await trans.commit();
+     const movie = await models.Movie.update(
+      {
+        // id:payload.movieId,
+        event_id:payload.eventId,
+        audi_id:payload.audiId,
+        movie_desc:payload.movieDesc,
+        movie_crew:payload.movieCrew,
+        start_time:payload.startTime,
+        end_time:payload.endTime,
+        movie_name:payload.movieName,
+        movie_duration:payload.movieDuration,
+        movie_language:payload.movieLanguage,
+        movie_date:payload.movieDate
+      },
+      {where: { id: payload.movieId }},
+    );
+    if (!movie) {
+      throw new Error("Movie does not exist ");
+    }
     return "movie has successfully updated "
   } catch (error) {
-    await trans.rollback();
-    return { data: null, error: error };
+   return { data: null, error: error };
   }
 };
 
 const updateConcert = async (payload) => {
   try {
-    
-    const getConcert=await models.Concert.findOne({
-      where: { id: payload.concertId },
-    });
-    const event = await models.Event.update(
-      {
-        event_name:payload.concertName,
-        event_duration:payload.concertDuration,
-        event_language:payload.concertLanguage,
-        event_date:payload.concertDate
-      },
-      {where: { id: getConcert.eventId }}
-    );
       const concert = await models.Concert.update(
         {
+          id:payload.movieId,
+          event_id:payload.eventId,
+          audi_id:payload.audiId,
+          concert_name:payload.concertName,
+          concert_duration:payload.concertDuration,
+          concert_language:payload.concertLanguage,
+          concert_date:payload.concertDate,
           artist_name:payload.artistName,
           concert_genre:payload.concertGenre
         },

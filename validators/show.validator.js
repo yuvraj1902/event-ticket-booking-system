@@ -28,6 +28,8 @@ const deleteMovieSchema = async (req, res, next) => {
 const updateMovieSchema = async (req, res, next) => {
     const schema = Joi.object({
         movieId: Joi.string().uuid().required(),
+        eventId:Joi.string().uuid().required(),
+        audiId:Joi.string().uuid().required(),
         movieName:Joi.string().min(3).required(),
         movieLanguage:Joi.string().min(3).required(),
         movieDate:Joi.date().iso().required(),
@@ -49,6 +51,8 @@ const deleteConcertSchema = async (req, res, next) => {
 const updateConcertSchema = async (req, res, next) => {
     const schema = Joi.object({
         concertId: Joi.string().uuid().required(),
+        eventId:Joi.string().uuid().required(),
+        audiId:Joi.string().uuid().required(),
         concertName:Joi.string().min(3).required(),
         concertLanguage:Joi.string().min(3).required(),
         concertDate:Joi.date().iso().required(),
