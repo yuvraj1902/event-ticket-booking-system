@@ -33,5 +33,37 @@ router.post(
     controllers.Show.getConcertDetails,
     genericResponse.sendResponse
 );
+router.delete(
+    '/movie',
+    checkAccessToken,
+    verifyUser,
+    validators.showValidator.deleteMovieSchema,
+    controllers.Show.deleteMovie,
+    genericResponse.sendResponse
+);
+router.delete(
+    '/concert',
+    checkAccessToken,
+    verifyUser,
+    validators.showValidator.deleteConcertSchema,
+    controllers.Show.deleteConcert,
+    genericResponse.sendResponse
+);
+router.put(
+    '/movie',
+    checkAccessToken,
+    verifyUser,
+    validators.showValidator.updateMovieSchema,
+    controllers.Show.updateMovie,
+    genericResponse.sendResponse
+);
+router.put(
+    '/concert',
+    checkAccessToken,
+    verifyUser,
+    validators.showValidator.updateConcertSchema,
+    controllers.Show.updateConcert,
+    genericResponse.sendResponse
+);
 
 module.exports=router;
