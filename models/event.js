@@ -24,25 +24,6 @@ module.exports = (sequelize, Sequelize) => {
     }
   }
   Event.init({
-    eventName: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      isAlpha: true
-    },
-    eventDuration: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      isAlphanumeric: true,
-    },
-    eventLanguage: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      isAlpha: true
-    },
-    eventDate: {
-      type: Sequelize.DATE,
-      allowNull: false
-    },
     eventType: {
       type: Sequelize.ENUM,
       allowNull: false,

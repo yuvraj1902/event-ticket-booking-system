@@ -25,6 +25,25 @@ module.exports = {
           key: 'id'
         }
       },
+      movie_name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        isAlpha: true
+      },
+      movie_duration: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        isAlphanumeric: true,
+      },
+      movie_language: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        isAlpha: true
+      },
+      movie_date: {
+        type: Sequelize.DATE,
+        allowNull: false
+      },
       movie_desc: {
         type: Sequelize.STRING,
         allowNull: false,
