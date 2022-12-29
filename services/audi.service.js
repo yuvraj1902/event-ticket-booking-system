@@ -1,12 +1,22 @@
 const models=require("../models")
+const map = new Map();
 const createAudi = async (payload) => {
     try {
           const theatre = await models.Theatre.findOne({
             where: { theatre_name: payload.theatreName },
           });
+          if(theatre.noOfScreens<map.get(theatre.id)){
+            throw new Error("Screen can't be assign to this theatre")
+        }
           if (!theatre) {
             throw new Error("Theatre does not exists");
           }
+          if(map.has(theatre.id)){
+              map.set(theatre.id,map.get(theatre.id)+1);
+          }else{
+              map.set(theatre.id,2)
+          }
+          
           
           const newPayload={
             theatreId:theatre.id,
@@ -14,6 +24,7 @@ const createAudi = async (payload) => {
           }
          await models.Audi.create(newPayload);
         return "Theatre has successfully created";
+      
     } catch (error) {
         return { data: null, error: error };
     }
