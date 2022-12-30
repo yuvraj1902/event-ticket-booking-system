@@ -1,24 +1,20 @@
-const { Router } = require('express');
-const controllers = require('../controllers');
-const validators=require("../validators")
-const genericResponse = require('../helper/generic-response.helper');
-const { verifyUser } = require('../middlewares/user-verification');
-const { checkAccessToken } = require('../middlewares/auth');
+const { Router } = require("express");
+const eventController = require("../controllers/event.controller");
+const eventValidator = require("../validators/event.validator");
+const genericResponse = require("../helper/generic-response.helper");
+const { verifyUser } = require("../middlewares/user-verification");
+const { checkAccessToken } = require("../middlewares/auth");
 const router = Router();
 
 router.post(
-    '/create-event',
-    checkAccessToken,
-    verifyUser,
-    validators.eventValidator.createEventSchema,
-    controllers.Event.createEvent,
-    genericResponse.sendResponse
+  "/create-event",
+  checkAccessToken,
+  verifyUser,
+  eventValidator.createEventSchema,
+  eventController.createEvent,
+  genericResponse.sendResponse
 );
 
-router.get(
-    '/event',
-    controllers.Event.getEvent,
-    genericResponse.sendResponse
-);
+router.get("/event", eventController.getEvent, genericResponse.sendResponse);
 
-module.exports=router;
+module.exports = router;
