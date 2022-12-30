@@ -44,7 +44,8 @@ module.exports = (sequelize, Sequelize) => {
     seatStatus: {
       type: Sequelize.ENUM,
       allowNull: false,
-      values:['filled','unfilled']
+      values:['filled','unfilled'],
+      defaultValue:'unfilled'
     },
   }, {
     sequelize,

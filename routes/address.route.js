@@ -1,6 +1,6 @@
 const { Router } = require('express');
-const controllers = require('../controllers');
-const validators=require("../validators")
+const addressController = require('../controllers/address.controller');
+const addressValidator=require("../validators/address.validator")
 const genericResponse = require('../helper/generic-response.helper');
 const { verifyUser } = require('../middlewares/user-verification');
 const { checkAccessToken } = require('../middlewares/auth');
@@ -10,14 +10,14 @@ router.post(
     '/create-address',
     checkAccessToken,
     verifyUser,
-    validators.addressValidator.createAddressSchema,
-    controllers.Address.createAddress,
+    addressValidator.createAddressSchema,
+    addressController.createAddress,
     genericResponse.sendResponse
 );
 
 router.get(
     '/address',
-    controllers.Address.getAddress,
+    addressController.getAddress,
     genericResponse.sendResponse
 );
 

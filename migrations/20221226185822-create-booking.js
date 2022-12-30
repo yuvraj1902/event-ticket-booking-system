@@ -35,10 +35,6 @@ module.exports = {
           key: 'id'
         }
       },
-      book_seat: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
       is_locked:{
         allowNull: false,
         type: Sequelize.TIME,
@@ -50,7 +46,8 @@ module.exports = {
       booking_status: {
         type: Sequelize.ENUM,
         allowNull: false,
-        values:['booked','pending','failed']
+        values:['booked','pending','failed'],
+        defaultValue:'pending'
       },
       created_at: {
         allowNull: false,
