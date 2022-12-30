@@ -1,6 +1,6 @@
 const { Router } = require('express');
-const controllers = require('../controllers');
-const validators=require("../validators")
+const theatreController = require('../controllers/theatre.controller');
+const theatreValidator=require("../validators/theatre.validator")
 const genericResponse = require('../helper/generic-response.helper');
 const { verifyUser } = require('../middlewares/user-verification');
 const { checkAccessToken } = require('../middlewares/auth');
@@ -10,15 +10,15 @@ router.post(
     '/create-theatre',
     checkAccessToken,
     verifyUser,
-    validators.theatreValidator.createTheatreSchema,
-    controllers.Theatre.createTheatre,
+    theatreValidator.createTheatreSchema,
+    theatreController.createTheatre,
     genericResponse.sendResponse
 );
 
 router.get(
     '/theatre',
-    validators.theatreValidator.getTheatreSchema,
-    controllers.Theatre.getTheatre,
+    theatreValidator.getTheatreSchema,
+    theatreController.getTheatre,
     genericResponse.sendResponse
 );
 

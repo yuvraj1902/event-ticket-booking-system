@@ -1,6 +1,6 @@
 const { Router } = require('express');
-const controllers = require('../controllers');
-const validators=require("../validators")
+const audiSeatController = require('../controllers/audi-seat.controller');
+const audiSeatValidator=require("../validators/audi-seat.validator")
 const genericResponse = require('../helper/generic-response.helper');
 const { verifyUser } = require('../middlewares/user-verification');
 const { checkAccessToken } = require('../middlewares/auth');
@@ -10,15 +10,15 @@ router.post(
     '/create-audi-seat',
     checkAccessToken,
     verifyUser,
-    validators.audiSeatValidator.createAudiSeatSchema,
-    controllers.AudiSeat.createAudiSeat,
+    audiSeatValidator.createAudiSeatSchema,
+    audiSeatController.createAudiSeat,
     genericResponse.sendResponse
 );
 
 router.get(
     '/audi-seat',
-    validators.audiSeatValidator.getAudiSeatSchema,
-    controllers.AudiSeat.getAudiSeat,
+    audiSeatValidator.getAudiSeatSchema,
+    audiSeatController.getAudiSeat,
     genericResponse.sendResponse
 );
 

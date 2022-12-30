@@ -3,7 +3,7 @@ const { sequelize } = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const UniqueStringGenerator = require("unique-string-generator");
-const mailer = require("../helper/send-mail.helper");
+const mailer = require("../helper/mail.helper");
 const redisClient = require("../utility/redis");
 const registration = async (payload) => {
   try {
