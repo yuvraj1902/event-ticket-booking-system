@@ -4,6 +4,7 @@ const Show=require('./show.controller')
 const Address=require('./address.controller')
 const Theatre=require('./theatre.controller')
 const Audi=require('./audi.controller')
+const AudiSeat=require('./audi-seat.controller')
 module.exports={
-    User,Event,Show,Address,Theatre,Audi
+    User,Event,Show,Address,Theatre,Audi,AudiSeat
 }

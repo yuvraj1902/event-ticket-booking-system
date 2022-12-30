@@ -4,6 +4,7 @@ const showValidator=require('./show.validator')
 const addressValidator=require('./address.validator')
 const theatreValidator=require('./theatre.validator')
 const audiValidator=require('./audi.validator')
+const audiSeatValidator=require('./audi-seat.validator')
 module.exports={
-    userValidator,eventValidator,showValidator,addressValidator,theatreValidator,audiValidator
+    userValidator,eventValidator,showValidator,addressValidator,theatreValidator,audiValidator,audiSeatValidator
 }
