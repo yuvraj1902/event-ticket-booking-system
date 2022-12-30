@@ -236,9 +236,6 @@ const updateMovie = async (payload) => {
   try {
      const movie = await models.Movie.update(
       {
-        // id:payload.movieId,
-        event_id:payload.eventId,
-        audi_id:payload.audiId,
         movie_desc:payload.movieDesc,
         movie_crew:payload.movieCrew,
         start_time:payload.startTime,
@@ -263,9 +260,7 @@ const updateConcert = async (payload) => {
   try {
       const concert = await models.Concert.update(
         {
-          id:payload.movieId,
-          event_id:payload.eventId,
-          audi_id:payload.audiId,
+
           concert_name:payload.concertName,
           concert_duration:payload.concertDuration,
           concert_language:payload.concertLanguage,
