@@ -1,6 +1,6 @@
 const { Router } = require('express');
-const controllers = require('../controllers');
-const validators=require("../validators")
+const audicontroller = require('../controllers/audi.controller');
+const audiValidator=require("../validators/audi.validator")
 const genericResponse = require('../helper/generic-response.helper');
 const { verifyUser } = require('../middlewares/user-verification');
 const { checkAccessToken } = require('../middlewares/auth');
@@ -10,15 +10,15 @@ router.post(
     '/create-audi',
     checkAccessToken,
     verifyUser,
-    validators.audiValidator.createAudiSchema,
-    controllers.Audi.createAudi,
+    audiValidator.createAudiSchema,
+    audicontroller.createAudi,
     genericResponse.sendResponse
 );
 
 router.get(
     '/audi',
-    validators.audiValidator.getAudiSchema,
-    controllers.Audi.getAudi,
+    audiValidator.getAudiSchema,
+    audicontroller.getAudi,
     genericResponse.sendResponse
 );
 
