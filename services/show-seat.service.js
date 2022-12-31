@@ -12,7 +12,7 @@ const createShowSeat = async (payload, booking) => {
       throw new Error("booking doesn't exists");
     }
     if (getBooking.bookingStatus == "failed") {
-      throw new Error("booking failed can't bbok the seats");
+      throw new Error("booking failed can't book the seats");
     }
     const showSeat = await models.ShowSeat.findOne(
       { where: { audi_seat_id: payload.audiSeatId } },
