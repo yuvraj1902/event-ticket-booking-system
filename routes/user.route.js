@@ -25,24 +25,24 @@ router.get(
 );
 
 router.patch(
-    "/reset-password",
-    checkAccessToken,
-    userValidator.resetPasswordSchema,
-    userController.resetPassword,
-    genericResponse.sendResponse
-  );
+  "/reset-password",
+  checkAccessToken,
+  userValidator.resetPasswordSchema,
+  userController.resetPassword,
+  genericResponse.sendResponse
+);
 
-  router.patch(
-    "/forget-password",
-    userValidator.forgetPasswordSchema,
-    userController.forgetPassword,
-    genericResponse.sendResponse
-  );
-  router.patch(
-    "/reset-password/:id",
-    userValidator.resetPasswordByLinkSchema,
-    userController.resetPasswordByLink,
-    genericResponse.sendResponse
-  );
+router.patch(
+  "/forget-password",
+  userValidator.forgetPasswordSchema,
+  userController.forgetPassword,
+  genericResponse.sendResponse
+);
+router.patch(
+  "/reset-password/:id",
+  userValidator.resetPasswordByLinkSchema,
+  userController.resetPasswordByLink,
+  genericResponse.sendResponse
+);
 
 module.exports = router;
