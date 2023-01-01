@@ -24,18 +24,16 @@ const createShow = async (payload) => {
       throw new Error("Event does not exist ");
     }
     if (event.eventType == "movie") {
-      
       const audi = await models.Movie.findOne({
         where: { audi_id: payload.audiId },
       });
-    
+
       if (audi) {
         throw new Error("Audi already exists");
       }
       const movie = await models.Movie.create(payload);
       return "movie show has successfully created";
     } else if (event.eventType == "concert") {
-      
       const audi = await models.Concert.findOne({
         where: { audi_id: payload.audiId },
       });
@@ -108,7 +106,7 @@ const getMovieDetails = async (payload) => {
       );
       if (!movie) continue;
       else {
-      const show = {
+        const show = {
           movieName: movie.movieName,
           movieDesc: movie.movieDesc,
           movieCrew: movie.movieCrew,
@@ -185,13 +183,13 @@ const getConcertDetails = async (payload) => {
       );
       if (!concert) continue;
       else {
-       const show = {
+        const show = {
           concertName: concert.concertName,
           artistName: concert.artistName,
           concertGenre: concert.concertGenre,
           concertDuration: concert.concertDuration,
           concertLanguage: concert.concertLanguage,
-          concertDate: concert.concertDate
+          concertDate: concert.concertDate,
         };
         movies.push(show);
       }
@@ -212,79 +210,71 @@ const deleteMovie = async (payload) => {
     if (!movie) {
       throw new Error("Movie does not exist ");
     }
-    return "movie has successfully deleted "
+    return "movie has successfully deleted ";
   } catch (error) {
     return { data: null, error: error };
   }
 };
 const deleteConcert = async (payload) => {
   try {
-
     const concert = await models.Concert.destroy({
       where: { id: payload.concertId },
     });
     if (!concert) {
       throw new Error("Concert does not exist ");
     }
-    return "concert has successfully deleted "
+    return "concert has successfully deleted ";
   } catch (error) {
     return { data: null, error: error };
   }
 };
 
-const updateMovie = async (payload) => { 
+const updateMovie = async (payload) => {
   try {
-     const movie = await models.Movie.update(
+    const movie = await models.Movie.update(
       {
-        // id:payload.movieId,
-        event_id:payload.eventId,
-        audi_id:payload.audiId,
-        movie_desc:payload.movieDesc,
-        movie_crew:payload.movieCrew,
-        start_time:payload.startTime,
-        end_time:payload.endTime,
-        movie_name:payload.movieName,
-        movie_duration:payload.movieDuration,
-        movie_language:payload.movieLanguage,
-        movie_date:payload.movieDate
+        movieDesc: payload.movieDesc,
+        movieCrew: payload.movieCrew,
+        startTime: payload.startTime,
+        endTime: payload.endTime,
+        movieName: payload.movieName,
+        movieDuration: payload.movieDuration,
+        movieLanguage: payload.movieLanguage,
+        movieDate: payload.movieDate,
       },
-      {where: { id: payload.movieId }},
+      { where: { id: payload.movieId } }
     );
+    console.log(movie);
     if (!movie) {
       throw new Error("Movie does not exist ");
     }
-    return "movie has successfully updated "
+    return "movie has successfully updated ";
   } catch (error) {
-   return { data: null, error: error };
+    return { data: null, error: error };
   }
 };
 
 const updateConcert = async (payload) => {
   try {
-      const concert = await models.Concert.update(
-        {
-          id:payload.movieId,
-          event_id:payload.eventId,
-          audi_id:payload.audiId,
-          concert_name:payload.concertName,
-          concert_duration:payload.concertDuration,
-          concert_language:payload.concertLanguage,
-          concert_date:payload.concertDate,
-          artist_name:payload.artistName,
-          concert_genre:payload.concertGenre
-        },
-        {where: { id: payload.concertId }}
-      );
-      if (!concert) {
-        throw new Error("Concert does not exist ");
-      }
-      return "concert has successfully updated "
-    } catch (error) {
-      return { data: null, error: error };
+    const concert = await models.Concert.update(
+      {
+        concert_name: payload.concertName,
+        concert_duration: payload.concertDuration,
+        concert_language: payload.concertLanguage,
+        concert_date: payload.concertDate,
+        artist_name: payload.artistName,
+        concert_genre: payload.concertGenre,
+      },
+      { where: { id: payload.concertId } }
+    );
+    if (!concert) {
+      throw new Error("Concert does not exist ");
     }
+    return "concert has successfully updated ";
+  } catch (error) {
+    return { data: null, error: error };
+  }
 };
-
-
 
 module.exports = {
   createShow,
@@ -294,5 +284,5 @@ module.exports = {
   deleteMovie,
   updateMovie,
   deleteConcert,
-  updateConcert
+  updateConcert,
 };

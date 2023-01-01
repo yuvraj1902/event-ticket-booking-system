@@ -36,38 +36,37 @@ const refreshToken = async (req, res, next) => {
 };
 
 const resetPassword = async (req, res, next) => {
-    try {
-      const { body: payload, user } = req;
-      const data = await userService.resetPassword(payload,req.user);
-      res.data = data;
-      next();
-    } catch (error) {
-      commonErrorHandler(req, res, error.message, 400, error);
-    }
-  };
+  try {
+    const { body: payload, user } = req;
+    const data = await userService.resetPassword(payload, req.user);
+    res.data = data;
+    next();
+  } catch (error) {
+    commonErrorHandler(req, res, error.message, 400, error);
+  }
+};
 
-const forgetPassword=async(req, res, next)=>{
-    try {
-        const { body: payload } = req;
-        const data = await userService.forgetPassword(payload);
-        res.data = data;
-        next();
-      } catch (error) {
-        commonErrorHandler(req, res, error.message, 400, error);
-      }    
-
-} 
+const forgetPassword = async (req, res, next) => {
+  try {
+    const { body: payload } = req;
+    const data = await userService.forgetPassword(payload);
+    res.data = data;
+    next();
+  } catch (error) {
+    commonErrorHandler(req, res, error.message, 400, error);
+  }
+};
 
 const resetPasswordByLink = async (req, res, next) => {
-    try {
-      const { body: payload,params } = req;
-      const data = await userService.resetPasswordByLink(payload,req.params);
-      res.data = data;
-      next();
-    } catch (error) {
-      commonErrorHandler(req, res, error.message, 400, error);
-    }
-  };
+  try {
+    const { body: payload, params } = req;
+    const data = await userService.resetPasswordByLink(payload, req.params);
+    res.data = data;
+    next();
+  } catch (error) {
+    commonErrorHandler(req, res, error.message, 400, error);
+  }
+};
 
 module.exports = {
   registration,
@@ -75,5 +74,5 @@ module.exports = {
   refreshToken,
   resetPassword,
   forgetPassword,
-  resetPasswordByLink
+  resetPasswordByLink,
 };
