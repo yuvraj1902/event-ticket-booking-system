@@ -12,7 +12,7 @@ const createShowSeat = async (payload, booking) => {
       throw new Error("booking doesn't exists");
     }
     if (getBooking.bookingStatus == "failed") {
-      throw new Error("booking failed can't bbok the seats");
+      throw new Error("booking failed can't book the seats");
     }
     const showSeat = await models.ShowSeat.findOne(
       { where: { audi_seat_id: payload.audiSeatId } },
@@ -100,7 +100,7 @@ const getShowSeat = async (payload, booking) => {
             seatPrice: showSeat[i].seatPrice,
           };
           await models.ShowSeat.update(
-            { seat_status: "fillled" },
+            { seatStatus: "filled" },
             { where: { audi_seat_id: showSeat[i].audiSeatId } },
             { transaction: trans }
           );
@@ -115,6 +115,11 @@ const getShowSeat = async (payload, booking) => {
             { transaction: trans }
           );
         }
+        await models.Booking.update(
+          { bookingStatus: "failed" },
+          { where: { id: booking.id } },
+          { transaction: trans }
+        );
         await trans.commit();
         return " booking failed ";
       }
@@ -125,6 +130,11 @@ const getShowSeat = async (payload, booking) => {
           { transaction: trans }
         );
       }
+      await models.Booking.update(
+        { bookingStatus: "failed" },
+        { where: { id: booking.id } },
+        { transaction: trans }
+      );
       await trans.commit();
       return " booking failed ";
     }

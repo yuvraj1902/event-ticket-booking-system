@@ -58,10 +58,12 @@ const getBooking = async (payload, user) => {
       bookingArray.push(booking[i]);
     } else {
       bookingArray.push(booking[i]);
-      await models.Booking.update(
-        { bookingStatus: "failed" },
-        { where: { id: booking[i].id } }
-      );
+      if (booking[i].bookingStatus == "pending") {
+        await models.Booking.update(
+          { bookingStatus: "failed" },
+          { where: { id: booking[i].id } }
+        );
+      }
     }
   }
   return bookingArray;
