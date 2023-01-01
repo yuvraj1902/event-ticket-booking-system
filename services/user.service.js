@@ -21,6 +21,7 @@ const registration = async (payload) => {
     return { data: null, error: error };
   }
 };
+
 const loginUser = async (payload) => {
   const { email, password } = payload;
 
@@ -116,27 +117,26 @@ const forgetPassword = async (payload) => {
   return "reset password link send successfully";
 };
 
-const resetPasswordByLink = async (payload,params) => {
-    
-    const userId=await redisClient.get(params.id)
-    if(!userId){
-        throw new Error("Invite expire for changing password")
-    }
-    const password = payload.password;
-    const newPassword = await bcrypt.hash(password, 10);
-    const updatePassword = await models.User.update(
-      { password:newPassword },
-      { where: { id: userId } }
-    );
-  
-    return "password reset successfully";
-  };
-  
+const resetPasswordByLink = async (payload, params) => {
+  const userId = await redisClient.get(params.id);
+  if (!userId) {
+    throw new Error("Invite expire for changing password");
+  }
+  const password = payload.password;
+  const newPassword = await bcrypt.hash(password, 10);
+  const updatePassword = await models.User.update(
+    { password: newPassword },
+    { where: { id: userId } }
+  );
+
+  return "password reset successfully";
+};
+
 module.exports = {
   registration,
   loginUser,
   refreshToken,
   resetPassword,
   forgetPassword,
-  resetPasswordByLink
+  resetPasswordByLink,
 };
