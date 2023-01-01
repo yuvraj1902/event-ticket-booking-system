@@ -15,7 +15,6 @@ const createEvent = async (payload) => {
 };
 
 const getEvent = async (payload) => {
-  
   const events = await models.Event.findAll({
     attributes: { exclude: ["deleted_at"] },
   });

@@ -33,31 +33,31 @@ const registrationSchema = async (req, res, next) => {
   validateRequest(req, res, next, schema, "body");
 };
 
-const resetPasswordSchema= async (req, res, next) => {
-    const schema = Joi.object({
-      oldPassword: passwordComplexity(complexityOptions).required(),
-      newPassword: passwordComplexity(complexityOptions).required(),
-    });
-    validateRequest(req, res, next, schema, "body");
-  }
+const resetPasswordSchema = async (req, res, next) => {
+  const schema = Joi.object({
+    oldPassword: passwordComplexity(complexityOptions).required(),
+    newPassword: passwordComplexity(complexityOptions).required(),
+  });
+  validateRequest(req, res, next, schema, "body");
+};
 
-  const forgetPasswordSchema= async (req, res, next) => {
-    const schema = Joi.object({
-      email: Joi.string().email().lowercase().required()
-    });
-    validateRequest(req, res, next, schema, "body");
-  }
+const forgetPasswordSchema = async (req, res, next) => {
+  const schema = Joi.object({
+    email: Joi.string().email().lowercase().required(),
+  });
+  validateRequest(req, res, next, schema, "body");
+};
 
-  const resetPasswordByLinkSchema= async (req, res, next) => {
-    const schema = Joi.object({
-      password: passwordComplexity(complexityOptions).required(),
-    });
-    validateRequest(req, res, next, schema, "body");
-  }
+const resetPasswordByLinkSchema = async (req, res, next) => {
+  const schema = Joi.object({
+    password: passwordComplexity(complexityOptions).required(),
+  });
+  validateRequest(req, res, next, schema, "body");
+};
 module.exports = {
   registrationSchema,
   loginSchema,
   resetPasswordSchema,
   forgetPasswordSchema,
-  resetPasswordByLinkSchema
+  resetPasswordByLinkSchema,
 };
