@@ -1,5 +1,5 @@
-const Joi = require('joi');
-const {validateRequest} = require('../helper/common-functions.helper')
+const Joi = require("joi");
+const { validateRequest } = require("../helper/common-functions.helper");
 
 const getShowTypeSchema = async (req, res, next) => {
     const schema = Joi.object({

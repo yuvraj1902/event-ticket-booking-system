@@ -1,4 +1,4 @@
-const models=require("../models")
+const models = require("../models");
 const createAddress = async (payload) => {
     try {
         const existingAddress = await models.Address.findOne({
@@ -30,14 +30,16 @@ const createAddress = async (payload) => {
     } catch (error) {
         return { data: null, error: error };
     }
+    
 };
 
 const getAddress = async (payload) => {
-    const address = await models.Address.findAll({
-      attributes: { exclude: ["deleted_at"] }
-    });
-    return address;
-  }
-  module.exports={
-    createAddress,getAddress
-  }
+  const address = await models.Address.findAll({
+    attributes: { exclude: ["deleted_at"] },
+  });
+  return address;
+};
+module.exports = {
+  createAddress,
+  getAddress,
+};
