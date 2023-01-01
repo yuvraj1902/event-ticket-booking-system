@@ -49,21 +49,22 @@ const createConcertBooking = async (payload, user) => {
 
 const getBooking = async (payload, user) => {
   const booking = await models.Booking.findAll({
-    attributes: {
-      exclude: [
-        "deleted_at",
-        "created_at",
-        "updated_at",
-        "lockTime",
-        "isLocked",
-        "user_id",
-        "movie_id",
-        "concert_id",
-      ],
-    },
     where: { user_id: user.id },
   });
-  return booking;
+  let bookingArray = [];
+  for (let i = 0; i < booking.length; i++) {
+    const currentTime = moment().format("hh:mm:ss");
+    if (currentTime <= booking[i].lockTime) {
+      bookingArray.push(booking[i]);
+    } else {
+      bookingArray.push(booking[i]);
+      await models.Booking.update(
+        { bookingStatus: "failed" },
+        { where: { id: booking[i].id } }
+      );
+    }
+  }
+  return bookingArray;
 };
 module.exports = {
   createMovieBooking,
