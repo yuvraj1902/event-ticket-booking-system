@@ -57,13 +57,13 @@ const getBooking = async (payload, user) => {
     if (currentTime <= booking[i].lockTime) {
       bookingArray.push(booking[i]);
     } else {
-      bookingArray.push(booking[i]);
       if (booking[i].bookingStatus == "pending") {
         await models.Booking.update(
           { bookingStatus: "failed" },
           { where: { id: booking[i].id } }
         );
       }
+      bookingArray.push(booking[i]);
     }
   }
   return bookingArray;
