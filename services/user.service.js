@@ -3,7 +3,7 @@ const { sequelize } = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const UniqueStringGenerator = require("unique-string-generator");
-const mailer = require("../helper/send-mail.helper");
+const mailer = require("../helper/mail.helper");
 const redisClient = require("../utility/redis");
 const registration = async (payload) => {
   try {
@@ -116,27 +116,26 @@ const forgetPassword = async (payload) => {
   return "reset password link send successfully";
 };
 
-const resetPasswordByLink = async (payload,params) => {
-    
-    const userId=await redisClient.get(params.id)
-    if(!userId){
-        throw new Error("Invite expire for changing password")
-    }
-    const password = payload.password;
-    const newPassword = await bcrypt.hash(password, 10);
-    const updatePassword = await models.User.update(
-      { password:newPassword },
-      { where: { id: userId } }
-    );
-  
-    return "password reset successfully";
-  };
-  
+const resetPasswordByLink = async (payload, params) => {
+  const userId = await redisClient.get(params.id);
+  if (!userId) {
+    throw new Error("Invite expire for changing password");
+  }
+  const password = payload.password;
+  const newPassword = await bcrypt.hash(password, 10);
+  const updatePassword = await models.User.update(
+    { password: newPassword },
+    { where: { id: userId } }
+  );
+
+  return "password reset successfully";
+};
+
 module.exports = {
   registration,
   loginUser,
   refreshToken,
   resetPassword,
   forgetPassword,
-  resetPasswordByLink
+  resetPasswordByLink,
 };

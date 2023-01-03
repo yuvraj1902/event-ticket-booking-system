@@ -32,7 +32,8 @@ module.exports = {
       seat_status: {
         type: Sequelize.ENUM,
         allowNull: false,
-        values:['filled','unfilled']
+        values:['filled','unfilled'],
+        defaultValue:'unfilled'
       },
       created_at: {
         allowNull: false,
