@@ -125,6 +125,7 @@ const getShowSeat = async (payload, booking) => {
       }
     } else {
       for (let i = 0; i < showSeat.length; i++) {
+        if(getBooking.bookingStatus == "pending"){
         await models.ShowSeat.destroy(
           { where: { audi_seat_id: showSeat[i].audiSeatId } },
           { transaction: trans }
@@ -135,6 +136,7 @@ const getShowSeat = async (payload, booking) => {
         { where: { id: booking.id } },
         { transaction: trans }
       );
+      }
       await trans.commit();
       return " booking failed ";
     }
