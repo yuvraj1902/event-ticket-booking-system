@@ -1,6 +1,7 @@
 const models = require("../models");
 const moment = require("moment");
 const { sequelize } = require("../models");
+const mailer = require("../helper/mail.helper");
 const createPayment = async (payload, booking) => {
   const trans = await sequelize.transaction();
   try {
@@ -18,6 +19,10 @@ const createPayment = async (payload, booking) => {
     if (!getBooking) {
       throw new Error("booking doesn't exists");
     }
+    const getUser=await models.User.findOne(
+      { where: { id: getBooking.userId } },
+      { transaction: trans }
+    );
     if (getBooking.bookingStatus == "failed") {
       throw new Error("booking failed can't make the payment");
     }
@@ -56,6 +61,10 @@ const createPayment = async (payload, booking) => {
           { transaction: trans }
         );
         await trans.commit();
+        const body= "Event Ticket Book"
+        const subject="Booking Successful"
+        const recipient=getUser.email;
+        mailer.sendMail(body,subject,recipient);
         return "Payment Successful";
       } else {
         await models.Booking.update(
