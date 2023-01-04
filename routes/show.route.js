@@ -21,5 +21,49 @@ router.post(
   showController.createShow,
   genericResponse.sendResponse
 );
+router.post(
+  "/movie",
+  showValidator.getMovieDetailsSchema,
+  showController.getMovieDetails,
+  genericResponse.sendResponse
+);
+router.post(
+  "/concert",
+  showValidator.getConcertDetailsSchema,
+  showController.getConcertDetails,
+  genericResponse.sendResponse
+);
+router.delete(
+  "/movie",
+  checkAccessToken,
+  verifyUser,
+  showValidator.deleteMovieSchema,
+  showController.deleteMovie,
+  genericResponse.sendResponse
+);
+router.delete(
+  "/concert",
+  checkAccessToken,
+  verifyUser,
+  showValidator.deleteConcertSchema,
+  showController.deleteConcert,
+  genericResponse.sendResponse
+);
+router.patch(
+  "/movie",
+  checkAccessToken,
+  verifyUser,
+  showValidator.updateMovieSchema,
+  showController.updateMovie,
+  genericResponse.sendResponse
+);
+router.patch(
+  "/concert",
+  checkAccessToken,
+  verifyUser,
+  showValidator.updateConcertSchema,
+  showController.updateConcert,
+  genericResponse.sendResponse
+);
 
 module.exports = router;
